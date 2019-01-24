@@ -775,17 +775,6 @@ Network::Netresult Network::get_output(
 
     // Insert result into cache.
     m_nncache.insert(state->board.get_hash(), result);
-    double policypow = 0.8;
-	double policytotal = 0;
-	for (size_t i = 0; i < result.policy.size(); i++)
-	{
-		result.policy[i] = pow(result.policy[i], policypow);
-		policytotal += result.policy[i];
-    }
-    for (size_t i = 0; i < result.policy.size(); i++)
-	{
-    	result.policy[i] = result.policy[i] / policytotal;
-    }
     return result;
 }
 
@@ -839,6 +828,17 @@ Network::Netresult Network::get_output_internal(
     result.policy_pass = outputs[NUM_INTERSECTIONS];
     result.winrate = winrate;
 
+	double policypow = 0.8;
+	double policytotal = 0;
+	for (size_t i = 0; i < result.policy.size(); i++)
+	{
+		result.policy[i] = pow(result.policy[i], policypow);
+		policytotal += result.policy[i];
+    }
+    for (size_t i = 0; i < result.policy.size(); i++)
+	{
+    	result.policy[i] = result.policy[i] / policytotal;
+    }
     return result;
 }
 
